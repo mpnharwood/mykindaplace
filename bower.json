@@ -14,6 +14,7 @@
 		"sinon": "~1.7.3",
 		"text": "https://github.com/requirejs/text.git",
 		"momentjs": "2.x.x",
-		"requirejs-plugins": "~1.0.2"
+		"requirejs-plugins": "~1.0.2",
+		"jquery-ui": "~1.10.3"
 	}
 }

@@ -1,8 +1,7 @@
 define([
-	'backbone',
-	'modules/regular-expressions'
+	'backbone'
 ],
-	function (Backbone, expr) {
+	function (Backbone) {
 
 		return Backbone.Model.extend({
 			idAttribute: "lsoa",

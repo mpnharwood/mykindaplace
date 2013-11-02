@@ -13,6 +13,7 @@ require.config({
 
 		// Map remaining vendor dependencies.
 		"jquery": "../vendor/bower/jquery/jquery",
+		"jquery-ui": "../vendor/bower/jquery-ui/ui/jquery-ui",
 		"backbone": "../vendor/bower/backbone/backbone",
 
 		async: 'lib/require/async',
@@ -30,6 +31,11 @@ require.config({
 
 			// This maps the global `Backbone` object to `require("backbone")`.
 			exports: "Backbone"
+		},
+
+		"jquery-ui": {
+			export: "$",
+			deps: ['jquery']
 		}
 	}
 });

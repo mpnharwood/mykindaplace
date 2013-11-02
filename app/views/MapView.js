@@ -16,7 +16,13 @@ define([
 				var mapOptions = {
 					zoom: 12,
 					center: new google.maps.LatLng(52.202544, 0.131237),
-					mapTypeId: google.maps.MapTypeId.ROADMAP
+					mapTypeId: google.maps.MapTypeId.ROADMAP,
+					zoomControl: false,
+					panControl: false,
+					streetViewControl: true,
+					streetViewControlOptions: {
+						position: google.maps.ControlPosition.RIGHT_BOTTOM
+					}
 				};
 				this.map = new google.maps.Map(this.el,
 					mapOptions);
