@@ -17,6 +17,37 @@ menu#menu {
     background-color: rgba(80, 134, 89, 0.7);
     color: white;
     margin: 0;
+    padding: 0 20px 0 0;
+    height: 100%;
+}
+
+.menu-item {
+    padding: 1em 0.5em 1em 0;
+    text-align: right;
+    font-family: Tahoma;
+    font-size: 1.3em;
+    border-bottom: 3px solid rgba(157, 207, 240, 0.9);
+    cursor: pointer;
+}
+
+.menu-2-title {
+    padding: 1em 0.5em 1em 0;
+    font-family: Tahoma;
+    font-size: 2em;
+    border-bottom: 3px solid rgba(80, 134, 89, 0.7);
+}
+
+.menu-item:hover {
+    background-color: rgba(157, 207, 240, 0.9);
+}
+
+menu#second-menu {
+    display: none;
+    position: absolute;
+    top: 0;
+    background-color: rgba(157, 207, 240, 0.9);
+    color: black;
+    margin: 0;
     padding: 0 40px 0 40px;
     height: 100%;
 }
@@ -26,6 +57,11 @@ menu#menu {
     display: block;
     -webkit-animation: pop-in 1s ease-out;
     animation: pop-in 1s ease-out forwards;
+}
+
+#second-menu.enter {
+    width: 40%;
+    -webkit-animation: pop-in-second 1s ease-out;
 }
 
 .leave {
@@ -42,7 +78,18 @@ menu#menu {
         width: 10px;
     }
     100% {
-        opacity: 0.7;
+        opacity: 0.8;
         width: 20em;
+    }
+}
+
+@-webkit-keyframes pop-in-second {
+    0% {
+        opacity: 0;
+        width: 10px;
+    }
+    100% {
+        opacity: 1;
+        width: 40%;
     }
 }

@@ -1,4 +1,7 @@
 <div class="menu-holder">
-    <div class="menu-item-title">Title</div>
-    <div class="slider"></div>
+    <% _.each(items, function(item) { %>
+    <div class="menu-item">
+        <div class="menu-item-title <%-item.code%>"><%-item.name%></div>
+    </div>
+    <% }) %>
 </div>
