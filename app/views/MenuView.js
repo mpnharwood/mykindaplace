@@ -1,10 +1,11 @@
 define([
 	'backbone',
 	'views/TimeTaken',
+	'views/Age',
 	'text!templates/menu.html',
 	'jquery-ui'
 ],
-	function (Backbone, TimeTaken, template) {
+	function (Backbone, TimeTaken, Age, template) {
 		return Backbone.View.extend({
 			template: _.template(template),
 
@@ -18,7 +19,7 @@ define([
 					code: 'travel-time',
 					type: TimeTaken,
 					slide: function (val) {
-						console.log()
+						console.log(val)
 					},
 					close: function (addr) {
 						console.log("goto", addr);
@@ -27,8 +28,10 @@ define([
 				{
 					name: 'Age',
 					code: 'age',
-					type: TimeTaken,
-					slide: $.noop,
+					type: Age,
+					slide: function (val) {
+						console.log(val)
+					},
 					close: $.noop
 				},
 				{
@@ -96,22 +99,24 @@ define([
 //				this.$('.slider').slider(this.sliderOptions)
 				this.$el.click(_.bind(function () {
 					this.$el.off('animationend webkitAnimationEnd');
-					this.$el.hasClass('enter') ? this.hide() : this.show();
+					this.$el.hasClass('enter') || this.show();
 				}, this))
 
 				_.each(this.choices, _.bind(function (item) {
 					this.$('.' + item.code).click(_.bind(function (e) {
-						if (!this[item.code]) {
-							this[item.code] = new item.type({
-								el: '#second-menu'
-							});
-							this[item.code].on('slide', _.bind(item.slide, this))
-							this[item.code].on('hide', _.bind(function (data) {
+						if (!item.view) {
+							item.view = new item.type({});
+							$('body').append(item.view.$el)
+							item.view.on('slide', _.bind(item.slide, this))
+							item.view.on('hide', _.bind(function (data) {
 								item.close(data);
 								this.show();
 							}, this))
 						}
-						this[item.code].show();
+						item.view.show();
+						this.hide();
+						e.preventDefault();
+						return false;
 					}, this))
 				}, this))
 			},

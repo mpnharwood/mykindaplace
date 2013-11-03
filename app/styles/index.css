@@ -44,7 +44,7 @@ menu#menu {
     background-color: rgba(157, 207, 240, 0.9);
 }
 
-menu#second-menu {
+menu.second-menu {
     display: none;
     position: absolute;
     top: 0;
@@ -61,6 +61,11 @@ menu#second-menu {
     margin-top: -0.5em;
 }
 
+img.done {
+    cursor: pointer;
+    width: 7em;
+}
+
 .enter {
     width: 15em;
     display: block;
@@ -68,7 +73,7 @@ menu#second-menu {
     animation: pop-in 1s ease-out forwards;
 }
 
-#second-menu.enter {
+.second-menu.enter {
     width: 40%;
     -webkit-animation: pop-in-second 1s ease-out;
 }
