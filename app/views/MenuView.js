@@ -23,6 +23,69 @@ define([
 					close: function (addr) {
 						console.log("goto", addr);
 					}
+				},
+				{
+					name: 'Age',
+					code: 'age',
+					type: TimeTaken,
+					slide: $.noop,
+					close: $.noop
+				},
+				{
+					name: 'Air Quality',
+					code: 'air-quality',
+					type: TimeTaken,
+					slide: $.noop,
+					close: $.noop
+				},
+				{
+					name: 'Crime',
+					code: 'crime',
+					type: TimeTaken,
+					slide: $.noop,
+					close: $.noop
+				},
+				{
+					name: 'Greenery',
+					code: 'greenery',
+					type: TimeTaken,
+					slide: $.noop,
+					close: $.noop
+				},
+				{
+					name: 'Language',
+					code: 'language',
+					type: TimeTaken,
+					slide: $.noop,
+					close: $.noop
+				},
+				{
+					name: 'House prices',
+					code: 'price-of-house',
+					type: TimeTaken,
+					slide: $.noop,
+					close: $.noop
+				},
+				{
+					name: 'Salary',
+					code: 'salary',
+					type: TimeTaken,
+					slide: $.noop,
+					close: $.noop
+				},
+				{
+					name: 'Qualifications',
+					code: 'qualification',
+					type: TimeTaken,
+					slide: $.noop,
+					close: $.noop
+				},
+				{
+					name: 'Marriage',
+					code: 'marriage',
+					type: TimeTaken,
+					slide: $.noop,
+					close: $.noop
 				}
 			],
 

@@ -26,15 +26,12 @@ define([
 				};
 				this.map = new google.maps.Map(this.el,
 					mapOptions);
-				var getcol = function () {
-					return (Math.random() > 0.5) ? '#ff7c11' : '#00ff00'
-				};
 				_.each(this.bounds.models, _.bind(function (bound) {
-					this.drawArea(bound, getcol());
+					this.drawArea(bound, Math.random() * 100);
 				}, this))
 			},
 
-			drawArea: function (boundary, colour) {
+			drawArea: function (boundary, score) {
 				var poly_coords = boundary.get("coords");
 				var googleMapPoly = [];
 				for (var p = 0; p < poly_coords.length; p++) {
@@ -43,15 +40,38 @@ define([
 				if (googleMapPoly.length > 0) {
 					var poly = new google.maps.Polygon({
 						path: googleMapPoly,
-						strokeColor: colour,
+						strokeColor: '#ff7c11',
 						strokeOpacity: 0.8,
 						strokeWeight: 2,
-						fillColor: colour,
+						fillColor: this.colour(score),
 						fillOpacity: 0.35
 					});
 					poly.setMap(this.map);
 					boundary.set('poly', poly);
 				}
+			},
+
+			colour: function (percent) {
+				function numToHex(num) {
+					var red = num.toString(16);
+					return (red.length == 1) ? '0' + red : red;
+				}
+
+				percent--; // working with 0-99 will be easier
+
+				if (percent < 50) {
+					// green to yellow
+					$r = Math.floor(255 * (percent / 50));
+					$g = 255;
+
+				} else {
+					// yellow to red
+					$r = 255;
+					$g = Math.floor(255 * ((50 - percent % 50) / 50));
+				}
+				$b = 0;
+
+				return "#" + numToHex($r) + numToHex($g) + numToHex($b);
 			}
 		});
 	});

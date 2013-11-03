@@ -17,13 +17,16 @@ menu#menu {
     background-color: rgba(80, 134, 89, 0.7);
     color: white;
     margin: 0;
-    padding: 0 20px 0 0;
+    padding: 0;
     height: 100%;
+    overflow: auto;
 }
 
 .menu-item {
-    padding: 1em 0.5em 1em 0;
-    text-align: right;
+    padding-top: 1em;
+    padding-right: 0.5em;
+    padding-left: 0.5em;
+    padding-bottom: 1em;
     font-family: Tahoma;
     font-size: 1.3em;
     border-bottom: 3px solid rgba(157, 207, 240, 0.9);
@@ -33,7 +36,7 @@ menu#menu {
 .menu-2-title {
     padding: 1em 0.5em 1em 0;
     font-family: Tahoma;
-    font-size: 2em;
+    font-size: 3.1em;
     border-bottom: 3px solid rgba(80, 134, 89, 0.7);
 }
 
@@ -52,8 +55,14 @@ menu#second-menu {
     height: 100%;
 }
 
+.menu-item-title img {
+    height: 2.5em;
+    float: right;
+    margin-top: -0.5em;
+}
+
 .enter {
-    width: 20em;
+    width: 15em;
     display: block;
     -webkit-animation: pop-in 1s ease-out;
     animation: pop-in 1s ease-out forwards;
@@ -79,7 +88,7 @@ menu#second-menu {
     }
     100% {
         opacity: 0.8;
-        width: 20em;
+        width: 15em;
     }
 }
 
