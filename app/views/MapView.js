@@ -33,7 +33,7 @@ define([
 				}, this))
 
 				if (!this.menuView) {
-					this.menuView = new MenuView({el: '#menu'});
+					this.menuView = new MenuView({el: '#menu', lsoas: this.bounds});
 					this.menuView.show();
 				}
 			},

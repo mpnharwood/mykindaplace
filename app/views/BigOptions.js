@@ -13,8 +13,8 @@ define([
 				this.sliderOptions = _.defaults(this.sliderOptions, {
 					value: 0,
 					min: 0,
-					max: 5,
-					step: 1,
+					max: 1,
+					step: 0.2,
 					change: _.bind(function (e, ui) {
 						this.trigger('slide', {
 							value: ui.value,
