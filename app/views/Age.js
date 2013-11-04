@@ -10,11 +10,12 @@ define([
 			template: _.template(template),
 
 			sliderOptions: {
-				min: -2,
-				max: 2,
+				min: -1,
+				max: 1,
+				step: 0.5,
 				slide: function (e, ui) {
 					if (ui.value !== 0) {
-						$(e.target).css('background', colourFromPercent(100 - (ui.value + 5) * 10));
+						$(e.target).css('background', colourFromPercent(100 - (ui.value + 1) * 50));
 					}
 					else {
 						$(e.target).css('background', '');

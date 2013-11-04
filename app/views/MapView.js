@@ -16,7 +16,7 @@ define([
 
 			render: function () {
 				var mapOptions = {
-					zoom: 12,
+					zoom: 13,
 					center: new google.maps.LatLng(52.202544, 0.131237),
 					mapTypeId: google.maps.MapTypeId.ROADMAP,
 					zoomControl: false,
@@ -35,6 +35,13 @@ define([
 				if (!this.menuView) {
 					this.menuView = new MenuView({el: '#menu', lsoas: this.bounds});
 					this.menuView.show();
+					this.menuView.on('scored', _.bind(function () {
+						_.each(this.bounds.models, _.bind(function (lsoa) {
+							lsoa.get('poly').setOptions({
+								fillColor: colourFromPercent(lsoa.score)
+							})
+						}, this));
+					}, this));
 				}
 			},
 
@@ -54,6 +61,9 @@ define([
 						fillOpacity: 0.35
 					});
 					poly.setMap(this.map);
+					google.maps.event.addListener(poly, 'click', function (event) {
+						console.log(boundary.get("lsoa"));
+					});
 					boundary.set('poly', poly);
 				}
 			}

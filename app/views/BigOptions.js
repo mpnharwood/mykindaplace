@@ -19,7 +19,7 @@ define([
 						this.trigger('slide', {
 							value: ui.value,
 							name: $(e.target).data('key'),
-							element: $(e.target)
+							$e: $(e.target)
 						});
 					}, this)
 				});

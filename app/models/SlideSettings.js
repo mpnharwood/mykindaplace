@@ -50,9 +50,16 @@ define([
 					"working": 0 // values between -1 to 1
 				},
 				"greenery": {
-					"level": 0 // values between -1 to 1
+					"green": 0, // values between -1 to 1
+					"grey": 0 // values between -1 to 1
 				}
 
+			},
+
+			innerSet: function (attr, prop, val) {
+				if (this.get(attr)[prop] === val) return;
+				this.get(attr)[prop] = val;
+				this.trigger('change:' + attr);
 			}
 		});
 	});

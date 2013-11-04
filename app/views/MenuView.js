@@ -2,11 +2,16 @@ define([
 	'backbone',
 	'views/TimeTaken',
 	'views/Age',
+	'views/Ethnicity',
+	'views/Qualifications',
+	'views/Language',
+	'views/Marriage',
 	'models/SlideSettings',
+	'modules/Scorer',
 	'text!templates/menu.html',
 	'jquery-ui'
 ],
-	function (Backbone, TimeTaken, Age, SlideSettings, template) {
+	function (Backbone, TimeTaken, Age, Ethnicity, Qualifications, Language, Marriage, SlideSettings, Scorer, template) {
 		return Backbone.View.extend({
 			template: _.template(template),
 
@@ -22,43 +27,7 @@ define([
 					code: 'travel-time',
 					type: TimeTaken,
 					slide: function (e) {
-						if (this.settings.get('travel_time').duration !== e.value) {
-							this.settings.set('travel_time', {
-								"duration": e.value// values between 0 to 1
-							})
-						}
-					},
-					close: function ($button) {
-						var method = google.maps.TravelMode[$button.data('transport')];
-						var origins = [ $button.parent().find('input').val() ];
-						var destinations = _.map(this.lsoas.models, function (model) {
-							return new google.maps.LatLng(model.get('coords')[10].lat, model.get('coords')[10].lng);
-						})
-						var service = new google.maps.DistanceMatrixService();
-						service.getDistanceMatrix(
-							{
-								origins: origins,
-								destinations: destinations.slice(0, 24),
-								travelMode: method,
-								avoidHighways: false,
-								avoidTolls: false
-							}, _.bind(this.distanceCallbackOne, this));
-						service.getDistanceMatrix(
-							{
-								origins: origins,
-								destinations: destinations.slice(24, 48),
-								travelMode: method,
-								avoidHighways: false,
-								avoidTolls: false
-							}, _.bind(this.distanceCallbackTwo, this));
-						service.getDistanceMatrix(
-							{
-								origins: origins,
-								destinations: destinations.slice(48),
-								travelMode: method,
-								avoidHighways: false,
-								avoidTolls: false
-							}, _.bind(this.distanceCallbackThree, this));
+						this.settings.innerSet('travel_time', "duration", e.value);
 					}
 				},
 				{
@@ -66,15 +35,28 @@ define([
 					code: 'age',
 					type: Age,
 					slide: function (val) {
-						console.log(val)
+						this.settings.innerSet('age_group', val.name, val.value);
 					},
 					close: $.noop
 				},
 				{
-					name: 'Air Quality',
-					code: 'air-quality',
-					type: TimeTaken,
-					slide: $.noop,
+					name: 'Ethnicity',
+					code: 'ethnic-group',
+					type: Ethnicity,
+					slide: function (val) {
+						this.settings.innerSet('ethnicity', val.name, val.value);
+					},
+					close: function () {
+						this.rescore();
+					}
+				},
+				{
+					name: 'Qualifications',
+					code: 'qualification',
+					type: Qualifications,
+					slide: function (val) {
+						this.settings.innerSet('qualifications', val.name, val.value);
+					},
 					close: $.noop
 				},
 				{
@@ -94,8 +76,10 @@ define([
 				{
 					name: 'Language',
 					code: 'language',
-					type: TimeTaken,
-					slide: $.noop,
+					type: Language,
+					slide: function (val) {
+						this.settings.innerSet('language', val.name, val.value);
+					},
 					close: $.noop
 				},
 				{
@@ -113,17 +97,12 @@ define([
 					close: $.noop
 				},
 				{
-					name: 'Qualifications',
-					code: 'qualification',
-					type: TimeTaken,
-					slide: $.noop,
-					close: $.noop
-				},
-				{
 					name: 'Marriage',
 					code: 'marriage',
-					type: TimeTaken,
-					slide: $.noop,
+					type: Marriage,
+					slide: function (val) {
+						this.settings.innerSet('marital-status', val.name, val.value);
+					},
 					close: $.noop
 				}
 			],
@@ -144,8 +123,9 @@ define([
 							item.view = new item.type({});
 							$('body').append(item.view.$el)
 							item.view.on('slide', _.bind(item.slide, this))
+							item.view.on('slide', _.bind(this.rescore, this))
 							item.view.on('hide', _.bind(function (data) {
-								_.bind(item.close, this)(data);
+								_.bind(item.close || item.view.close, this)(data);
 								this.show();
 							}, this))
 						}
@@ -170,6 +150,14 @@ define([
 				this.$el.one('animationend webkitAnimationEnd', function (e) {
 					$(e.delegateTarget).find('.menu-holder').hide()
 				})
+			},
+
+			rescore: function () {
+				var scores = Scorer.score(this.settings.attributes, this.lsoas.models);
+				_.each(scores, _.bind(function (score) {
+					this.lsoas.get(score.lsoa).score = score.total.total;
+				}, this));
+				this.trigger('scored', scores);
 			},
 
 			distanceCallbackOne: function (response) {
